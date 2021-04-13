@@ -1,4 +1,3 @@
-
 var viewer
 
 var activeModel = ''
@@ -13,342 +12,346 @@ var allFramesSelected = false
 var models = {}
 var textures = {}
 
-var canExport = [ false, false, false ]
+var canExport = [false, false, false]
 
-$(document).ready(function() {
-
-
-  // initialize viewer
-
-  var viewerWindow = $('#viewer').get(0)
-
-  viewer = new ModelViewer(viewerWindow)
-  $(window).resize(viewer.resize)
-
-  viewer.controls.target0.set(0, -4, 0)
-  viewer.controls.position0.set(8, 0, 20)
-  viewer.controls.rotateSpeed = 0.3
-
-  viewer.reset()
+$(document).ready(function () {
 
 
-  // handle events
+    // initialize viewer
 
-  $(document).on('scroll', function(event) {
-    $(document).scrollLeft(0)
-    $(document).scrollTop(0)
-  })
+    var viewerWindow = $('#viewer').get(0)
 
-  $('#topbar-export').click(function(event) {
-    event.stopPropagation()
-    exportModal.show()
-    playingAnimation = true
-    $('#timeline-option-play-button').click()
-    $('#export-model-path').change()
-    $('#export-texture-path').change()
-    $('#export-pack-format').change()
-  })
+    viewer = new ModelViewer(viewerWindow)
+    $(window).resize(viewer.resize)
 
-  $('#frames').click(function(event) {
-    event.stopPropagation()
-    if (activeModel != '') {
-      viewer.hide(activeModel)
-      activeModel = ''
-    }
-    $('.frame-element.selected').removeClass('selected')
-    allFramesSelected = false
-  })
+    viewer.controls.target0.set(0, -4, 0)
+    viewer.controls.position0.set(8, 0, 20)
+    viewer.controls.rotateSpeed = 0.3
 
-  $('#viewer-action-reset').click(function(event) {
-    event.stopPropagation()
     viewer.reset()
-  })
-  $('#viewer-action-target').click(function(event) {
-    event.stopPropagation()
-    if (Object.keys(animationFrames).indexOf(activeFrame) >= 0) {
-      viewer.lookAt(activeFrame)
-    } else if (Object.keys(animationFrames).indexOf(activeModel) >= 0) {
-      viewer.lookAt(activeModel)
-    }
-  })
 
-  $('#frames-sidebar-loadFrames').click(function(event) {
-    event.stopPropagation()
-    modal.show()
-  })
-  $('#frames-sidebar-selectAll').click(function(event) {
-    event.stopPropagation()
-    $('.frame-element').addClass('selected')
-    allFramesSelected = true
-  })
-  $('#frames-sidebar-delete').click(function(event) {
-    event.stopPropagation()
-    if (allFramesSelected) {
-      $('.frame-element').remove()
-      viewer.removeAll()
-      animationFrames = {}
-      $('.timeline-frame-element').remove()
-    } else if (activeModel != '') {
-      $('.frame-element[data-name="' + activeModel + '"]').remove()
-      viewer.remove(activeModel)
-      delete animationFrames[activeModel]
-      $('.timeline-frame-element[data-name="' + activeModel + '"]').remove()
-    }
-    allFramesSelected = false
-    activeModel = ''
-  })
 
-  $('#timeline-option-play-button').click(function(event) {
-    event.stopPropagation()
-    var button = $(this)
-    if (playingAnimation) {
-      playingAnimation = false
-      button.html('<svg><use xlink:href="#svg-play">')
-      button.attr('title', 'Play')
-    } else {
-      playingAnimation = true
-      button.html('<svg><use xlink:href="#svg-pause">')
-      button.attr('title', 'Pause')
-      animateTimeline()
-    }
-  })
-  $('#timeline-option-delete-all').click(function(event) {
-    event.stopPropagation()
-    $('.timeline-frame-element').remove()
-    playingAnimation = true
-    $('#timeline-option-play-button').click()
-  })
+    // handle events
 
-  $('#overlay').click(function(event) {
-    event.stopPropagation()
-    modal.hide()
-  })
-  $('#modal').click(function(event) {
-    event.stopPropagation()
-  })
+    $(document).on('scroll', function (event) {
+        $(document).scrollLeft(0)
+        $(document).scrollTop(0)
+    })
 
-  $('#modal-close').click(function(event) {
-    event.stopPropagation()
-    modal.hide()
-  })
+    $('#topbar-export').click(function (event) {
+        event.stopPropagation()
+        exportModal.show()
+        playingAnimation = true
+        $('#timeline-option-play-button').click()
+        $('#export-model-path').change()
+        $('#export-texture-path').change()
+    })
 
-  $('#modal-load').click(function(event) {
+    $('#frames').click(function (event) {
+        event.stopPropagation()
+        if (activeModel != '')
+        {
+            viewer.hide(activeModel)
+            activeModel = ''
+        }
+        $('.frame-element.selected').removeClass('selected')
+        allFramesSelected = false
+    })
 
-    event.stopPropagation()
+    $('#viewer-action-reset').click(function (event) {
+        event.stopPropagation()
+        viewer.reset()
+    })
+    $('#viewer-action-target').click(function (event) {
+        event.stopPropagation()
+        if (Object.keys(animationFrames).indexOf(activeFrame) >= 0)
+        {
+            viewer.lookAt(activeFrame)
+        }
+        else if (Object.keys(animationFrames).indexOf(activeModel) >= 0)
+        {
+            viewer.lookAt(activeModel)
+        }
+    })
 
-    var frames = getAnimationFrames()
-    var frameNames = Object.keys(frames).concat(Object.keys(animationFrames)).sort(alphanum)
-    var newFrames = {}
+    $('#frames-sidebar-loadFrames').click(function (event) {
+        event.stopPropagation()
+        modal.show()
+    })
+    $('#frames-sidebar-selectAll').click(function (event) {
+        event.stopPropagation()
+        $('.frame-element').addClass('selected')
+        allFramesSelected = true
+    })
+    $('#frames-sidebar-delete').click(function (event) {
+        event.stopPropagation()
+        if (allFramesSelected)
+        {
+            $('.frame-element').remove()
+            viewer.removeAll()
+            animationFrames = {}
+            $('.timeline-frame-element').remove()
+        }
+        else if (activeModel != '')
+        {
+            $('.frame-element[data-name="' + activeModel + '"]').remove()
+            viewer.remove(activeModel)
+            delete animationFrames[activeModel]
+            $('.timeline-frame-element[data-name="' + activeModel + '"]').remove()
+        }
+        allFramesSelected = false
+        activeModel = ''
+    })
 
-    for (var i = 0; i < frameNames.length; i++) {
-      var name = frameNames[i]
-      var frame
-      if (Object.keys(frames).indexOf(name) >= 0) {
-        frame = frames[name]
-      } else {
-        frame = animationFrames[name]
-      }
-      newFrames[name] = frame
-    }
+    $('#timeline-option-play-button').click(function (event) {
+        event.stopPropagation()
+        var button = $(this)
+        if (playingAnimation)
+        {
+            playingAnimation = false
+            button.html('<svg><use xlink:href="#svg-play">')
+            button.attr('title', 'Play')
+        }
+        else
+        {
+            playingAnimation = true
+            button.html('<svg><use xlink:href="#svg-pause">')
+            button.attr('title', 'Pause')
+            animateTimeline()
+        }
+    })
+    $('#timeline-option-delete-all').click(function (event) {
+        event.stopPropagation()
+        $('.timeline-frame-element').remove()
+        playingAnimation = true
+        $('#timeline-option-play-button').click()
+    })
 
-    animationFrames = newFrames
+    $('#overlay').click(function (event) {
+        event.stopPropagation()
+        modal.hide()
+    })
+    $('#modal').click(function (event) {
+        event.stopPropagation()
+    })
 
-    modal.hide()
+    $('#modal-close').click(function (event) {
+        event.stopPropagation()
+        modal.hide()
+    })
 
-    displayAnimationFrames()
+    $('#modal-load').click(function (event) {
 
-    allFramesSelected = false
+        event.stopPropagation()
 
-  })
-  $('#modal-file-input').change(function(event) {
-    event.stopPropagation()
-    modal.load(this.files)
-    this.value = ''
-  })
+        var frames = getAnimationFrames()
+        var frameNames = Object.keys(frames).concat(Object.keys(animationFrames)).sort(alphanum)
+        var newFrames = {}
 
-  $('#export-overlay').click(function(event) {
-    event.stopPropagation()
-    exportModal.hide()
-  })
-  $('#export-modal').click(function(event) {
-    event.stopPropagation()
-  })
+        for (var i = 0; i < frameNames.length; i++)
+        {
+            var name = frameNames[i]
+            var frame
+            if (Object.keys(frames).indexOf(name) >= 0)
+            {
+                frame = frames[name]
+            }
+            else
+            {
+                frame = animationFrames[name]
+            }
+            newFrames[name] = frame
+        }
 
-  $('#export-model-path').on('input change keyup paste click', function(event) {
-    event.stopPropagation()
-    if ($(this).val().trim().match(/^(?!\.)(?!com[0-9]$)(?!con$)(?!lpt[0-9]$)(?!nul$)(?!prn$)[^\|\*\?\\:<>$"]*[^\.\|\*\?\\:<>/$"]+$/) && $(this).val().trim().split('//').length == 1 && (!$(this).val().match(/[A-Z]/) || parseInt($('#export-pack-format').val()) < 3)) {
-      canExport[0] = true
-      $(this).removeClass('invalid-input')
-    } else {
-      canExport[0] = false
-      $(this).addClass('invalid-input')
-    }
-    if (canExport[0] && canExport[1] && canExport[2] && $('.timeline-frame-element').length > 0) {
-      $('#export-modal-export').removeClass('hidden')
-    } else {
-      $('#export-modal-export').addClass('hidden')
-    }
-  })
+        animationFrames = newFrames
 
-  $('#export-texture-path').on('input change keyup paste click', function(event) {
-    event.stopPropagation()
-    if ($(this).val().trim().match(/^(?!\.)(?!com[0-9]$)(?!con$)(?!lpt[0-9]$)(?!nul$)(?!prn$)[^\|\*\?\\:<>$"]*[^\.\|\*\?\\:<>/$"]+$/) && $(this).val().trim().split('//').length == 1 && (!$(this).val().match(/[A-Z]/) || parseInt($('#export-pack-format').val()) < 3)) {
-      canExport[1] = true
-      $(this).removeClass('invalid-input')
-    } else {
-      canExport[1] = false
-      $(this).addClass('invalid-input')
-    }
-    if (canExport[0] && canExport[1] && canExport[2] && $('.timeline-frame-element').length > 0) {
-      $('#export-modal-export').removeClass('hidden')
-    } else {
-      $('#export-modal-export').addClass('hidden')
-    }
-  })
+        modal.hide()
 
-  $('#export-pack-format').on('input change keyup paste click', function(event) {
-    event.stopPropagation()
-    if ($(this).val().trim().match(/^\d+$/)) {
-      canExport[2] = true
-      $(this).removeClass('invalid-input')
-    } else {
-      canExport[2] = false
-      $(this).addClass('invalid-input')
-    }
-    if (canExport[0] && canExport[1] && canExport[2] && $('.timeline-frame-element').length > 0) {
-      $('#export-modal-export').removeClass('hidden')
-    } else {
-      $('#export-modal-export').addClass('hidden')
-    }
-    $('#export-model-path').change()
-    $('#export-texture-path').change()
-  })
+        displayAnimationFrames()
 
-  $('#export-modal-close').click(function(event) {
-    event.stopPropagation()
-    exportModal.hide()
-  })
-  $('#export-modal-export').click(function(event) {
-    event.stopPropagation()
-    if (canExport[0] && canExport[1] && canExport[2]) {
-      var modelPath = $('#export-model-path').val()
-      var texturePath = $('#export-texture-path').val()
-      var packFormat = $('#export-pack-format').val()
-      exportModal.export(modelPath, texturePath, packFormat)
-      exportModal.hide()
-    }
-  })
+        allFramesSelected = false
 
-  $('#timeline-frames').mousewheel(function(event, delta) {
-    event.stopPropagation()
-    event.preventDefault()
-    this.scrollLeft -= delta * 42
-  })
-  $('#timeline-frames').sortable({
-    revert: 140,
-    scroll: false,
-    axis: 'x',
-    placeholder: 'timeline-sorting-placeholder',
-    start: function(event, ui) {
-      ui.placeholder.html('<svg><use xlink:href="#svg-dropHere"></svg>')
-      ui.placeholder.css('width', ui.item.css('width'))
-    },
-    receive: function(event, ui) {
+    })
+    $('#modal-file-input').change(function (event) {
+        event.stopPropagation()
+        modal.load(this.files)
+        this.value = ''
+    })
 
-      var html = []
+    $('#export-overlay').click(function (event) {
+        event.stopPropagation()
+        exportModal.hide()
+    })
+    $('#export-modal').click(function (event) {
+        event.stopPropagation()
+    })
 
-      $(this).find('.frame-element').each(function() {
+    $('#export-model-path').on('input change keyup paste click', function (event) {
+        event.stopPropagation()
+        canExport[0] = true
+        $(this).removeClass('invalid-input')
+        if (canExport[0] && canExport[1] && $('.timeline-frame-element').length > 0)
+        {
+            $('#export-modal-export').removeClass('hidden')
+        }
+        else
+        {
+            $('#export-modal-export').addClass('hidden')
+        }
+    })
 
-        if (allFramesSelected) {
+    $('#export-texture-path').on('input change keyup paste click', function (event) {
+        event.stopPropagation()
+        canExport[1] = true
+        $(this).removeClass('invalid-input')
+        if (canExport[0] && canExport[1] && $('.timeline-frame-element').length > 0)
+        {
+            $('#export-modal-export').removeClass('hidden')
+        }
+        else
+        {
+            $('#export-modal-export').addClass('hidden')
+        }
+    })
 
-          $('#frames-container').find('.frame-element').each(function() {
-            var name = $(this).attr('data-name')
-            var timeframe = createTimelineFrame(name, 1)
-            html.push(timeframe)
-          })
+    $('#export-modal-close').click(function (event) {
+        event.stopPropagation()
+        exportModal.hide()
+    })
+    $('#export-modal-export').click(function (event) {
+        event.stopPropagation()
+        if (canExport[0] && canExport[1])
+        {
+            var modelPath = $('#export-model-path').val()
+            var texturePath = $('#export-texture-path').val()
+            var packFormat = 4
+            exportModal.export(modelPath, texturePath, packFormat)
+            exportModal.hide()
+        }
+    })
 
-        } else {
+    $('#timeline-frames').mousewheel(function (event, delta) {
+        event.stopPropagation()
+        event.preventDefault()
+        this.scrollLeft -= delta * 42
+    })
+    $('#timeline-frames').sortable({
+        revert: 140,
+        scroll: false,
+        axis: 'x',
+        placeholder: 'timeline-sorting-placeholder',
+        start: function (event, ui) {
+            ui.placeholder.html('<svg><use xlink:href="#svg-dropHere"></svg>')
+            ui.placeholder.css('width', ui.item.css('width'))
+        },
+        receive: function (event, ui) {
 
-          var name = $(this).attr('data-name')
-          var timeframe = createTimelineFrame(name, 1)
-          html.push(timeframe)
+            var html = []
+
+            $(this).find('.frame-element').each(function () {
+
+                if (allFramesSelected)
+                {
+
+                    $('#frames-container').find('.frame-element').each(function () {
+                        var name = $(this).attr('data-name')
+                        var timeframe = createTimelineFrame(name, 1)
+                        html.push(timeframe)
+                    })
+
+                }
+                else
+                {
+
+                    var name = $(this).attr('data-name')
+                    var timeframe = createTimelineFrame(name, 1)
+                    html.push(timeframe)
+
+                }
+
+            })
+
+            $(this).find('.frame-element').replaceWith(html)
 
         }
 
-      })
-
-      $(this).find('.frame-element').replaceWith(html)
-
-    }
-
-  })
+    })
 
 })
 
 
+function animateTimeline()
+{
 
-function animateTimeline() {
-
-  if (!playingAnimation) {
-    $('.timeline-frame-element.activeFrame').removeClass('activeFrame')
-    viewer.hideAll()
-    if (Object.keys(animationFrames).indexOf(activeModel) >= 0) {
-      $('.frame-element[data-name="' + activeModel + '"]').click()
+    if (!playingAnimation)
+    {
+        $('.timeline-frame-element.activeFrame').removeClass('activeFrame')
+        viewer.hideAll()
+        if (Object.keys(animationFrames).indexOf(activeModel) >= 0)
+        {
+            $('.frame-element[data-name="' + activeModel + '"]').click()
+        }
+        activeFrame = ''
+        tick = 1
+        return
     }
-    activeFrame = ''
-    tick = 1
-    return
-  }
 
-  var timelineFrames = []
+    var timelineFrames = []
 
-  $('.timeline-frame-element').each(function() {
-    var frame = $(this)
-    timelineFrames.push({
-      name: frame.attr('data-name'),
-      duration: 1*frame.attr('data-duration'),
-      element: frame
+    $('.timeline-frame-element').each(function () {
+        var frame = $(this)
+        timelineFrames.push({
+            name: frame.attr('data-name'),
+            duration: 1 * frame.attr('data-duration'),
+            element: frame
+        })
     })
-  })
 
-  var currentIndex = 0
-  var currentFrameName = ''
-  var currentFrameElement
+    var currentIndex = 0
+    var currentFrameName = ''
+    var currentFrameElement
 
-  for (var i = 0; i < timelineFrames.length; i++) {
-    var frame = timelineFrames[i]
-    var previousIndex = currentIndex
-    currentIndex += frame.duration
-    if (tick > previousIndex && tick <= currentIndex) {
-      currentFrameName = frame.name
-      currentFrameElement = frame.element
-      break
+    for (var i = 0; i < timelineFrames.length; i++)
+    {
+        var frame = timelineFrames[i]
+        var previousIndex = currentIndex
+        currentIndex += frame.duration
+        if (tick > previousIndex && tick <= currentIndex)
+        {
+            currentFrameName = frame.name
+            currentFrameElement = frame.element
+            break
+        }
     }
-  }
 
-  if (currentFrameName == '') {
-    tick = 1
-    if (timelineFrames.length > 0) {
-      currentFrameName = timelineFrames[0].name
-      currentFrameElement = timelineFrames[0].element
+    if (currentFrameName == '')
+    {
+        tick = 1
+        if (timelineFrames.length > 0)
+        {
+            currentFrameName = timelineFrames[0].name
+            currentFrameElement = timelineFrames[0].element
+        }
     }
-  }
 
-  if (currentFrameName != '') {
-    $('.timeline-frame-element.activeFrame').removeClass('activeFrame')
-    currentFrameElement.addClass('activeFrame')
-    activeFrame = currentFrameName
-    viewer.hideAll()
-    viewer.show(currentFrameName)
-  } else {
-    playingAnimation = true
-    $('#timeline-option-play-button').click()
-  }
+    if (currentFrameName != '')
+    {
+        $('.timeline-frame-element.activeFrame').removeClass('activeFrame')
+        currentFrameElement.addClass('activeFrame')
+        activeFrame = currentFrameName
+        viewer.hideAll()
+        viewer.show(currentFrameName)
+    }
+    else
+    {
+        playingAnimation = true
+        $('#timeline-option-play-button').click()
+    }
 
-  tick += 1
+    tick += 1
 
-  window.setTimeout(function() {
-    window.requestAnimationFrame(animateTimeline)
-  }, 50)
+    window.setTimeout(function () {
+        window.requestAnimationFrame(animateTimeline)
+    }, 50)
 
 }

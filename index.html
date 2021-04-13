@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
 
     <meta charset="utf-8">
 
@@ -8,413 +8,450 @@
     <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css" charset="utf-8">
 
-    <link rel="icon" type="image/png" href="favicon.png" />
+    <link rel="icon" type="image/png" href="favicon.png"/>
 
     <title>Minecraft model animator</title>
 
     <script>
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r;
+            i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date();
+            a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0];
+            a.async = 1;
+            a.src = g;
+            m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
 
-      ga('create', 'UA-91692842-1', 'auto');
-      ga('send', 'pageview');
+        ga('create', 'UA-91692842-1', 'auto');
+        ga('send', 'pageview');
 
     </script>
 
-  </head>
-  <body>
+</head>
+<body>
 
-    <!-- svg reference -->
-    <!-- All icons are from https://design.google.com/icons/ -->
-    <svg xmlns="http://www.w3.org/2000/svg" class="hidden">
+<!-- svg reference -->
+<!-- All icons are from https://design.google.com/icons/ -->
+<svg xmlns="http://www.w3.org/2000/svg" class="hidden">
 
-      <symbol id="svg-file" viewBox="0 0 24 24">
+    <symbol id="svg-file" viewBox="0 0 24 24">
         <path d="M0 0h24v24H0z" fill="none"/>
-        <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z" fill="currentColor"/>
-      </symbol>
-      <symbol id="svg-image" viewBox="0 0 24 24">
+        <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"
+              fill="currentColor"/>
+    </symbol>
+    <symbol id="svg-image" viewBox="0 0 24 24">
         <path d="M0 0h24v24H0z" fill="none"/>
-        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zm-5.04-6.71l-2.75 3.54-1.96-2.36L6.5 17h11l-3.54-4.71z" fill="currentColor"/>
-      </symbol>
-      <symbol id="svg-text" viewBox="0 0 24 24">
+        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zm-5.04-6.71l-2.75 3.54-1.96-2.36L6.5 17h11l-3.54-4.71z"
+              fill="currentColor"/>
+    </symbol>
+    <symbol id="svg-text" viewBox="0 0 24 24">
         <path d="M15 15H3v2h12v-2zm0-8H3v2h12V7zM3 13h18v-2H3v2zm0 8h18v-2H3v2zM3 3v2h18V3H3z" fill="currentColor"/>
         <path d="M0 0h24v24H0z" fill="none"/>
-      </symbol>
-      <symbol id="svg-add-file" viewBox="0 0 24 24">
+    </symbol>
+    <symbol id="svg-add-file" viewBox="0 0 24 24">
         <path d="M0 0h24v24H0z" fill="none"/>
-        <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 14h-3v3h-2v-3H8v-2h3v-3h2v3h3v2zm-3-7V3.5L18.5 9H13z" fill="currentColor"/>
-      </symbol>
-      <symbol id="svg-square" viewBox="0 0 24 24">
+        <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 14h-3v3h-2v-3H8v-2h3v-3h2v3h3v2zm-3-7V3.5L18.5 9H13z"
+              fill="currentColor"/>
+    </symbol>
+    <symbol id="svg-square" viewBox="0 0 24 24">
         <path d="M0 0h24v24H0z" fill="none"/>
-        <path d="M3 5v4h2V5h4V3H5c-1.1 0-2 .9-2 2zm2 10H3v4c0 1.1.9 2 2 2h4v-2H5v-4zm14 4h-4v2h4c1.1 0 2-.9 2-2v-4h-2v4zm0-16h-4v2h4v4h2V5c0-1.1-.9-2-2-2z" fill="currentColor"/>
-      </symbol>
-      <symbol id="svg-dropdown" viewBox="0 0 24 24">
+        <path d="M3 5v4h2V5h4V3H5c-1.1 0-2 .9-2 2zm2 10H3v4c0 1.1.9 2 2 2h4v-2H5v-4zm14 4h-4v2h4c1.1 0 2-.9 2-2v-4h-2v4zm0-16h-4v2h4v4h2V5c0-1.1-.9-2-2-2z"
+              fill="currentColor"/>
+    </symbol>
+    <symbol id="svg-dropdown" viewBox="0 0 24 24">
         <path d="M7 10l5 5 5-5z" fill="currentColor"/>
         <path d="M0 0h24v24H0z" fill="none"/>
-      </symbol>
-      <symbol id="svg-close-dropdown" viewBox="0 0 24 24">
+    </symbol>
+    <symbol id="svg-close-dropdown" viewBox="0 0 24 24">
         <path d="M7 14l5-5 5 5z" fill="currentColor"/>
         <path d="M0 0h24v24H0z" fill="none"/>
-      </symbol>
-      <symbol id="svg-cancel" viewBox="0 0 24 24">
-        <path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm5 13.59L15.59 17 12 13.41 8.41 17 7 15.59 10.59 12 7 8.41 8.41 7 12 10.59 15.59 7 17 8.41 13.41 12 17 15.59z" fill="currentColor"/>
+    </symbol>
+    <symbol id="svg-cancel" viewBox="0 0 24 24">
+        <path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm5 13.59L15.59 17 12 13.41 8.41 17 7 15.59 10.59 12 7 8.41 8.41 7 12 10.59 15.59 7 17 8.41 13.41 12 17 15.59z"
+              fill="currentColor"/>
         <path d="M0 0h24v24H0z" fill="none"/>
-      </symbol>
-      <symbol id="svg-select" viewBox="0 0 24 24">
+    </symbol>
+    <symbol id="svg-select" viewBox="0 0 24 24">
         <path d="M0 0h24v24H0z" fill="none"/>
-        <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z" fill="currentColor"/>
-      </symbol>
-      <symbol id="svg-play" viewBox="0 0 24 24">
+        <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"
+              fill="currentColor"/>
+    </symbol>
+    <symbol id="svg-play" viewBox="0 0 24 24">
         <path d="M8 5v14l11-7z" fill="currentColor"/>
         <path d="M0 0h24v24H0z" fill="none"/>
-      </symbol>
-      <symbol id="svg-pause" viewBox="0 0 24 24">
+    </symbol>
+    <symbol id="svg-pause" viewBox="0 0 24 24">
         <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" fill="currentColor"/>
         <path d="M0 0h24v24H0z" fill="none"/>
-      </symbol>
-      <symbol id="svg-close" viewBox="0 0 24 24">
-        <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" fill="currentColor"/>
+    </symbol>
+    <symbol id="svg-close" viewBox="0 0 24 24">
+        <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+              fill="currentColor"/>
         <path d="M0 0h24v24H0z" fill="none"/>
-      </symbol>
-      <symbol id="svg-duplicate" viewBox="0 0 24 24">
+    </symbol>
+    <symbol id="svg-duplicate" viewBox="0 0 24 24">
         <path d="M0 0h24v24H0z" fill="none"/>
-        <path d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm2 4v-2H3c0 1.1.89 2 2 2zM3 9h2V7H3v2zm12 12h2v-2h-2v2zm4-18H9c-1.11 0-2 .9-2 2v10c0 1.1.89 2 2 2h10c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 12H9V5h10v10zm-8 6h2v-2h-2v2zm-4 0h2v-2H7v2z" fill="currentColor"/>
-      </symbol>
-      <symbol id="svg-dropHere" viewBox="0 0 24 24">
+        <path d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm2 4v-2H3c0 1.1.89 2 2 2zM3 9h2V7H3v2zm12 12h2v-2h-2v2zm4-18H9c-1.11 0-2 .9-2 2v10c0 1.1.89 2 2 2h10c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 12H9V5h10v10zm-8 6h2v-2h-2v2zm-4 0h2v-2H7v2z"
+              fill="currentColor"/>
+    </symbol>
+    <symbol id="svg-dropHere" viewBox="0 0 24 24">
         <path d="M16 13h-3V3h-2v10H8l4 4 4-4zM4 19v2h16v-2H4z" fill="currentColor"/>
         <path d="M0 0h24v24H0z" fill="none"/>
-      </symbol>
-      <symbol id="svg-export" viewBox="0 0 24 24">
+    </symbol>
+    <symbol id="svg-export" viewBox="0 0 24 24">
         <path d="M0 0h24v24H0z" fill="none"/>
-        <path d="M21 3.01H3c-1.1 0-2 .9-2 2V9h2V4.99h18v14.03H3V15H1v4.01c0 1.1.9 1.98 2 1.98h18c1.1 0 2-.88 2-1.98v-14c0-1.11-.9-2-2-2zM11 16l4-4-4-4v3H1v2h10v3z" fill="currentColor"/>
-      </symbol>
+        <path d="M21 3.01H3c-1.1 0-2 .9-2 2V9h2V4.99h18v14.03H3V15H1v4.01c0 1.1.9 1.98 2 1.98h18c1.1 0 2-.88 2-1.98v-14c0-1.11-.9-2-2-2zM11 16l4-4-4-4v3H1v2h10v3z"
+              fill="currentColor"/>
+    </symbol>
 
-    </svg>
+</svg>
 
-    <!-- page wrapper -->
-    <div id="wrapper">
+<!-- page wrapper -->
+<div id="wrapper">
 
-      <!-- topbar -->
-      <div id="topbar">
+    <!-- topbar -->
+    <div id="topbar">
         <div class="relative">
 
-          <div id="topbar-left">
-            <div class="relative">
-              <h1>Json model animator - <a href="https://github.com/vberlier/animated-models" title="Check out the repository" target="_blank">Repository</a></h1>
+            <div id="topbar-left">
+                <div class="relative">
+                    <h1>Json model animator for <a href="https://itemsadder.plugin.ga" title="Check out the repository"
+                                                   target="_blank">ItemsAdder</a></h1>
+                </div>
             </div>
-          </div>
 
-          <div id="topbar-right">
-            <div class="relative">
-              <a id="topbar-export" title="Export animation"><svg><use xlink:href="#svg-export"></svg> Export</a>
+            <div id="topbar-right">
+                <div class="relative">
+                    <a id="topbar-export" title="Export animation">
+                        <svg>
+                            <use xlink:href="#svg-export"/>
+                        </svg>
+                        Export</a>
+                </div>
             </div>
-          </div>
 
         </div>
-      </div>
+    </div>
 
-      <!-- body -->
-      <div id="main" class="noselect">
+    <!-- body -->
+    <div id="main" class="noselect">
         <div class="relative">
-          <div id="top">
-            <div class="relative">
-
-              <!-- frames section -->
-              <div id="left">
+            <div id="top">
                 <div class="relative">
 
-                  <div id="frames-sidebar">
-                    <div class="relative">
-
-                      <div class="frames-sidebar-element">
-                        <a id="frames-sidebar-loadFrames" class="basic" title="Load resources"><svg><use xlink:href="#svg-add-file"></svg></a>
-                      </div>
-
-                      <div class="frames-sidebar-element">
-                        <a id="frames-sidebar-selectAll" class="basic" title="Select all"><svg><use xlink:href="#svg-select"></svg></a>
-                      </div>
-
-                      <div class="frames-sidebar-element">
-                        <a id="frames-sidebar-delete" class="basic" title="Remove selected models"><svg><use xlink:href="#svg-cancel"></svg></a>
-                      </div>
-
-                    </div>
-                  </div>
-
-                  <div id="frames">
-                    <div class="relative">
-
-                      <div id="frames-container">
-
-                        <!-- Frame list -->
-
-                      </div>
-
-                    </div>
-                  </div>
-
-                </div>
-              </div>
-
-              <!-- viewer section -->
-              <div id="right">
-                <div class="relative">
-
-                  <div id="viewer-window">
-                    <div class="relative">
-
-                      <div id="viewer">
-
-                        <!-- Model viewer -->
-
-                      </div>
-
-                    </div>
-                  </div>
-
-                  <div id="viewer-options">
-                    <div class="relative">
-
-                      <div class="viewer-option">
-                        <a id="viewer-action-reset">Reset camera</a>
-                      </div>
-
-                      <div class="viewer-option">
-                        <a id="viewer-action-target">Target model</a>
-                      </div>
-
-                    </div>
-                  </div>
-
-                </div>
-              </div>
-
-            </div>
-          </div>
-
-          <!-- timeline section -->
-          <div id="bottom">
-            <div class="relative">
-
-              <div id="timeline">
-                <div class="relative">
-
-                  <div id="timeline-frames">
-
-
-                  </div>
-
-                </div>
-              </div>
-
-              <div id="timeline-options">
-                <div class="relative">
-
-                  <div class="timeline-option-element">
-                    <a id="timeline-option-play-button" class="basic" title="Play"><svg><use xlink:href="#svg-play"></svg></a>
-                  </div>
-
-                  <div class="timeline-option-element-text">
-                    <a id="timeline-option-delete-all" title="Delete all frames">Reset animation</a>
-                  </div>
-
-                  <div class="timeline-option-element-text right">
-                    <a href="http://www.minecraftforum.net/forums/mapping-and-modding/minecraft-tools/2715476-block-models-json-model-animator" title="Minecraft forum thread" target="_blank">Need help?</a>
-                  </div>
-
-                </div>
-              </div>
-
-            </div>
-          </div>
-
-        </div>
-      </div>
-
-      <!-- overlay & modal -->
-      <div id="overlay" class="overlay hidden">
-        <div class="relative">
-
-          <div id="modal" class="modal">
-            <div class="relative">
-
-              <div id="modal-body" class="modal-body">
-                <div class="relative">
-
-                  <h2 id="modal-title" class="modal-title">
-                    Load resources
-                  </h2>
-
-                  <div id="modal-loading-section">
-                    <div class="relative">
-
-                      Input files <label for="modal-file-input" class="file-input noselect">Choose files...</label><input id="modal-file-input" type="file" value="" multiple>
-
-                      <div id="modal-file-count">No valid model loaded</div>
-
-                      <div id="modal-input-summary">
+                    <!-- frames section -->
+                    <div id="left">
                         <div class="relative">
 
-                          <div id="modal-input-summary-top-bar">
-                            <div class="relative">
+                            <div id="frames-sidebar">
+                                <div class="relative">
 
-                              <div class="modal-input-topbar-element">
-                                File name
-                              </div>
-                              <div class="modal-input-topbar-element">
-                                Status
-                              </div>
+                                    <div class="frames-sidebar-element">
+                                        <a id="frames-sidebar-loadFrames" class="basic" title="Load resources">
+                                            <svg>
+                                                <use xlink:href="#svg-add-file"/>
+                                            </svg>
+                                        </a>
+                                    </div>
+
+                                    <div class="frames-sidebar-element">
+                                        <a id="frames-sidebar-selectAll" class="basic" title="Select all">
+                                            <svg>
+                                                <use xlink:href="#svg-select"/>
+                                            </svg>
+                                        </a>
+                                    </div>
+
+                                    <div class="frames-sidebar-element">
+                                        <a id="frames-sidebar-delete" class="basic" title="Remove selected models">
+                                            <svg>
+                                                <use xlink:href="#svg-cancel"/>
+                                            </svg>
+                                        </a>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div id="frames">
+                                <div class="relative">
+
+                                    <div id="frames-container">
+
+                                        <!-- Frame list -->
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- viewer section -->
+                    <div id="right">
+                        <div class="relative">
+
+                            <div id="viewer-window">
+                                <div class="relative">
+
+                                    <div id="viewer">
+
+                                        <!-- Model viewer -->
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div id="viewer-options">
+                                <div class="relative">
+
+                                    <div class="viewer-option">
+                                        <a id="viewer-action-reset">Reset camera</a>
+                                    </div>
+
+                                    <div class="viewer-option">
+                                        <a id="viewer-action-target">Target model</a>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- timeline section -->
+            <div id="bottom">
+                <div class="relative">
+
+                    <div id="timeline">
+                        <div class="relative">
+
+                            <div id="timeline-frames">
+
 
                             </div>
-                          </div>
-
-                          <div id="modal-input-file-list">
-
-                            <!-- Loaded files -->
-
-                          </div>
 
                         </div>
-                      </div>
-
                     </div>
-                  </div>
+
+                    <div id="timeline-options">
+                        <div class="relative">
+
+                            <div class="timeline-option-element">
+                                <a id="timeline-option-play-button" class="basic" title="Play">
+                                    <svg>
+                                        <use xlink:href="#svg-play"/>
+                                    </svg>
+                                </a>
+                            </div>
+
+                            <div class="timeline-option-element-text">
+                                <a id="timeline-option-delete-all" title="Delete all frames">Reset animation</a>
+                            </div>
+
+                            <div class="timeline-option-element-text right">
+                                <a href="https://github.com/LoneDev6/animated-models" title="Minecraft forum thread"
+                                   target="_blank">Source Code</a>
+                            </div>
+
+                        </div>
+                    </div>
 
                 </div>
-              </div>
-
-              <div id="modal-footer" class="modal-footer">
-                <div class="relative">
-
-                  <div class="modal-footer-element">
-                    <button id="modal-close" class="basic" type="button">Close</button>
-                  </div>
-
-                  <div class="modal-footer-element">
-                    <button id="modal-load" type="button">Load</button>
-                  </div>
-
-                </div>
-              </div>
-
             </div>
-          </div>
 
         </div>
-      </div>
+    </div>
 
-      <!-- overlay & modal for export -->
-      <div id="export-overlay" class="overlay hidden">
+    <!-- overlay & modal -->
+    <div id="overlay" class="overlay hidden">
         <div class="relative">
 
-          <div id="export-modal" class="modal">
-            <div class="relative">
-
-              <div id="export-modal-body" class="modal-body">
+            <div id="modal" class="modal">
                 <div class="relative">
 
-                  <h2 id="export-modal-title" class="modal-title">
-                    Export model
-                  </h2>
+                    <div id="modal-body" class="modal-body">
+                        <div class="relative">
 
-                  <div id="export-nothing">Nothing to export</div>
+                            <h2 id="modal-title" class="modal-title">
+                                Load resources
+                            </h2>
 
-                  <div id="export-modal-main" class="hidden">
-                    <div class="relative">
+                            <div id="modal-loading-section">
+                                <div class="relative">
 
-                      <div id="export-modal-labels">
-                        <div class="export-modal-fixed-height">
-                          <label for="export-model-path">Model path</label>
-                        </div>
-                        <div class="export-modal-fixed-height">
-                          <label for="export-texture-path">Texture path</label>
-                        </div>
-                        <div class="export-modal-fixed-height">
-                          <label for="export-pack-format">Pack format</label>
-                        </div>
-                      </div>
+                                    Input files <label for="modal-file-input" class="file-input noselect">Choose
+                                    files...</label><input id="modal-file-input" type="file" value="" multiple>
 
-                      <div id="export-modal-inputs">
-                        <div class="export-modal-fixed-height">
-                          <input type="text" id="export-model-path" value="block/glass" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
-                        </div>
-                        <div class="export-modal-fixed-height">
-                          <input type="text" id="export-texture-path" value="block/model" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
-                        </div>
-                        <div class="export-modal-fixed-height">
-                          <input type="text" id="export-pack-format" value="4" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
-                        </div>
-                      </div>
+                                    <div id="modal-file-count">No valid model loaded</div>
 
+                                    <div id="modal-input-summary">
+                                        <div class="relative">
+
+                                            <div id="modal-input-summary-top-bar">
+                                                <div class="relative">
+
+                                                    <div class="modal-input-topbar-element">
+                                                        File name
+                                                    </div>
+                                                    <div class="modal-input-topbar-element">
+                                                        Status
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                            <div id="modal-input-file-list">
+
+                                                <!-- Loaded files -->
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
                     </div>
-                  </div>
+
+                    <div id="modal-footer" class="modal-footer">
+                        <div class="relative">
+
+                            <div class="modal-footer-element">
+                                <button id="modal-close" class="basic" type="button">Close</button>
+                            </div>
+
+                            <div class="modal-footer-element">
+                                <button id="modal-load" type="button">Load</button>
+                            </div>
+
+                        </div>
+                    </div>
 
                 </div>
-              </div>
-
-              <div id="export-modal-footer" class="modal-footer">
-                <div class="relative">
-
-                  <div class="modal-footer-element">
-                    <button id="export-modal-close" class="basic" type="button">Close</button>
-                  </div>
-
-                  <div class="modal-footer-element">
-                    <button id="export-modal-export" class="hidden" type="button">Export</button>
-                  </div>
-
-                </div>
-              </div>
-
             </div>
-          </div>
 
         </div>
-      </div>
-
     </div>
-    <!-- end of wrapper -->
 
-    <!-- JQuery & JQuery UI -->
-    <script src="js/libs/jquery.min.js" charset="utf-8"></script>
-    <script src="js/libs/jquery-ui.min.js" charset="utf-8"></script>
+    <!-- overlay & modal for export -->
+    <div id="export-overlay" class="overlay hidden">
+        <div class="relative">
 
-    <!-- Mouse wheel -->
-    <script src="js/libs/jquery.mousewheel.min.js" charset="utf-8"></script>
+            <div id="export-modal" class="modal">
+                <div class="relative">
 
-    <!-- JSZip -->
-    <script src="js/libs/jszip.min.js" charset="utf-8"></script>
+                    <div id="export-modal-body" class="modal-body">
+                        <div class="relative">
+
+                            <h2 id="export-modal-title" class="modal-title">
+                                Export model
+                            </h2>
+
+                            <div id="export-nothing">Nothing to export</div>
+
+                            <div id="export-modal-main" class="hidden">
+                                <div class="relative">
+
+                                    <div id="export-modal-labels">
+                                        <div class="export-modal-fixed-height">
+                                            <label for="export-model-path">Model path</label>
+                                        </div>
+                                        <div class="export-modal-fixed-height">
+                                            <label for="export-texture-path">Animated texture path</label>
+                                        </div>
+                                    </div>
+
+                                    <div id="export-modal-inputs">
+                                        <div class="export-modal-fixed-height">
+                                            <input type="text" id="export-model-path" value="block/glass"
+                                                   autocomplete="off" autocorrect="off" autocapitalize="off"
+                                                   spellcheck="false">
+                                        </div>
+                                        <div class="export-modal-fixed-height">
+                                            <input type="text" id="export-texture-path" value="block/model"
+                                                   autocomplete="off" autocorrect="off" autocapitalize="off"
+                                                   spellcheck="false">
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div id="export-modal-footer" class="modal-footer">
+                        <div class="relative">
+
+                            <div class="modal-footer-element">
+                                <button id="export-modal-close" class="basic" type="button">Close</button>
+                            </div>
+
+                            <div class="modal-footer-element">
+                                <button id="export-modal-export" class="hidden" type="button">Export</button>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+<!-- end of wrapper -->
+
+<!-- JQuery & JQuery UI -->
+<script src="js/libs/jquery.min.js" charset="utf-8"></script>
+<script src="js/libs/jquery-ui.min.js" charset="utf-8"></script>
+
+<!-- Mouse wheel -->
+<script src="js/libs/jquery.mousewheel.min.js" charset="utf-8"></script>
+
+<!-- JSZip -->
+<script src="js/libs/jszip.min.js" charset="utf-8"></script>
 
 
-    <!-- Model viewer -->
-    <script src="js/libs/three.min.js" charset="utf-8"></script>
-    <script src="js/libs/OrbitControls.js" charset="utf-8"></script>
-    <script src="js/libs/ModelViewer.js" charset="utf-8"></script>
+<!-- Model viewer -->
+<script src="js/libs/three.min.js" charset="utf-8"></script>
+<script src="js/libs/OrbitControls.js" charset="utf-8"></script>
+<script src="js/libs/ModelViewer.js" charset="utf-8"></script>
 
 
-    <!-- proper sorting -->
-    <script src="js/libs/alphanum.js" charset="utf-8"></script>
+<!-- proper sorting -->
+<script src="js/libs/alphanum.js" charset="utf-8"></script>
 
-    <!-- File saver -->
-    <script src="js/libs/FileSaver.min.js" charset="utf-8"></script>
+<!-- File saver -->
+<script src="js/libs/FileSaver.min.js" charset="utf-8"></script>
 
 
-    <!-- check files -->
-    <script src="js/checkFiles.js" charset="utf-8"></script>
+<!-- check files -->
+<script src="js/checkFiles.js" charset="utf-8"></script>
 
-    <!-- animation frames -->
-    <script src="js/animationFrames.js" charset="utf-8"></script>
+<!-- animation frames -->
+<script src="js/animationFrames.js" charset="utf-8"></script>
 
-    <!-- modal -->
-    <script src="js/modal.js" charset="utf-8"></script>
+<!-- modal -->
+<script src="js/modal.js" charset="utf-8"></script>
 
-    <!-- export modal -->
-    <script src="js/exportModal.js" charset="utf-8"></script>
+<!-- export modal -->
+<script src="js/exportModal.js" charset="utf-8"></script>
 
-    <!-- index -->
-    <script src="js/index.js" charset="utf-8"></script>
+<!-- index -->
+<script src="js/index.js" charset="utf-8"></script>
 
-  </body>
+</body>
 </html>

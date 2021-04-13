@@ -53,8 +53,10 @@ function ModelViewer(container) {
 
   // renderer
 
-  this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true })
+  this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false })
   this.renderer.setSize(rect.width, rect.height)
+
+  this.renderer.setClearColor (0x292929, 1);
 
 
   // controls
